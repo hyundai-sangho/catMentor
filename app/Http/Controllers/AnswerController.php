@@ -111,23 +111,21 @@ class AnswerController extends Controller
         $answerUniqueIdArray = explode('||', $questions->answer_uniqueid);
         $search = array_search($answers->questions_uniqueid, $answerUniqueIdArray);
 
-        var_dump($search);
-
         array_splice($answerUniqueIdArray, $search, 1);
 
-        $answerUniqueIdArray2 = '';
-        foreach ($answerUniqueIdArray as $key => $value) {
-          var_dump($answerUniqueIdArray);
-          exit;
+
+        $answerUniqueIdArray2 = $answerUniqueIdArray;
+        $answerUniqueIdArray3 = '';
+        foreach ($answerUniqueIdArray2 as $key => $value) {
 
           if ($value == "") {
             continue;
           }
 
-          $answerUniqueIdArray2 .= $value . '||';
+          $answerUniqueIdArray3 = $answerUniqueIdArray3 . $value . '||';
         }
 
-        DB::table('questions')->where('unique_id', $answers->questions_uniqueid)->update(['answer_uniqueid' => $answerUniqueIdArray2]);
+        DB::table('questions')->where('unique_id', $answers->questions_uniqueid)->update(['answer_uniqueid' => $answerUniqueIdArray3]);
       }
 
       DB::table('answers')->where('id', $id)->delete();
