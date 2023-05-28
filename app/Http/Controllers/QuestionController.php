@@ -129,7 +129,7 @@ class QuestionController extends Controller
 
     // 질문 id에 해당하는 질문 데이터가 없을시 'message' => '존재하지 않는 질문입니다.' 출력
     if ($questions->isEmpty()) {
-      return response()->json(['message' => '존재하지 않는 질문입니다.'], 404);
+      return response()->json(['message' => '존재하지 않는 질문입니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
     // json 형식으로 질문 데이터 return
@@ -345,7 +345,7 @@ class QuestionController extends Controller
         if ($createQuestions) {
           return response()->json(['message' => '질문이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
-          return response()->json(['message' => '질문이 등록되지 않았습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
+          return response()->json(['message' => '질문이 등록되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
         }
 
       }
@@ -400,7 +400,7 @@ class QuestionController extends Controller
           ->first();
 
         if (empty($users)) {
-          return response()->json(['message' => '해당 사용자가 존재하지 않습니다.'], 401, [], JSON_UNESCAPED_UNICODE);
+          return response()->json(['message' => '해당 사용자가 존재하지 않습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
         }
 
         $id = $request->input('id');
@@ -426,7 +426,7 @@ class QuestionController extends Controller
           if ($updateQuestions) {
             return response()->json(['message' => '질문이 수정되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
           } else {
-            return response()->json(['message' => '질문이 수정되지 않았습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(['message' => '질문이 수정되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
           }
         } else {
           return response()->json(['message' => '질문 작성자가 아니므로 질문을 수정할 수 있는 권한이 없습니다.'], 404, [], JSON_UNESCAPED_UNICODE);

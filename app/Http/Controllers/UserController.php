@@ -129,13 +129,13 @@ class UserController extends Controller
 
     // 디비에 존재하는 이메일은 회원 가입 불가
     if ($usersEmail->count() > 0) {
-      return response()->json(['message' => '존재하는 이메일입니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '존재하는 이메일입니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
     if ($age < 1) {
-      return response()->json(['message' => '나이는 1살 이상이어야 합니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '나이는 1살 이상이어야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif ($age > 15) {
-      return response()->json(['message' => '나이는 15살 이하여야 합니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '나이는 15살 이하여야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     } else {
       $user = new User();
       $user->unique_id = uniqid();
@@ -163,7 +163,7 @@ class UserController extends Controller
     $password = $request->input('password');
 
     if ($uniqueId == null) {
-      return response()->json(['message' => '업데이트를 할 수 없습니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '업데이트를 할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
     function password_crypt($string, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
@@ -203,9 +203,9 @@ class UserController extends Controller
       ]);
 
     if ($users) {
-      return response()->json(['message' => '업데이트 되었습니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '업데이트 되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
     } else {
-      return response()->json(['message' => '업데이트 되지 않았습니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '업데이트 되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
   }
 
@@ -217,9 +217,9 @@ class UserController extends Controller
       ->where('unique_id', '=', $uniqueId)->delete();
 
     if ($users) {
-      return response()->json(['message' => '삭제되었습니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '삭제되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
     } else {
-      return response()->json(['message' => '존재하지 않는 unique_id 입니다.'], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '존재하지 않는 unique_id 입니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
   }
 }
