@@ -159,7 +159,7 @@ hyundai_sangho@naver.com
 9. **답변 삭제**
     - 해당 답변이 채택된 이후엔 삭제가 불가합니다.
 
-## 과제 순서
+<!-- ## 과제 순서
 
 1. 라라벨 프로젝트 만들기
 
@@ -169,7 +169,7 @@ hyundai_sangho@naver.com
 
 4. 깃헙 프라이빗 레포 개설 후 콜라보레이터로 comentDev 추가
 
-5. 지원 동기, 깃헙 URL 메일로 전송(담당자: jaehyeong.choi@comento.kr)
+5. 지원 동기, 깃헙 URL 메일로 전송(담당자: jaehyeong.choi@comento.kr) -->
 
 <!-- ## API
 
