@@ -1,0 +1,42 @@
+{
+    "cSpell.words": [
+        "answer_uniqueid",
+        "autoload",
+        "Autoload",
+        "autoloader",
+        "dont",
+        "fakerphp",
+        "fideloper",
+        "guzzlehttp",
+        "haircolor_pattern",
+        "laravel",
+        "Laravel",
+        "nunomaduro",
+        "phpunit",
+        "uniqueid",
+        "user_uniqueid"
+    ],
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "keyword.operator.assignment",
+                "settings": {
+                    "foreground": "#ffffff"
+                }
+            },
+            {
+                "scope": "keyword.operator",
+                "settings": {
+                    "foreground": "#ffd467"
+                }
+            },
+            {
+                "scope": "variable.other.property",
+                "settings": {
+                    "foreground": "#db5252"
+                }
+            }
+        ],
+        "comments": ""
+    }
+}
