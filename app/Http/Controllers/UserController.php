@@ -100,7 +100,52 @@ class UserController extends Controller
     $haircolor_pattern = $request->input('haircolor_pattern');
     $type = $request->input('type');
 
-    function password_crypt($string, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
+    if (empty($name)) {
+      return response()->json(['message' => '이름을 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($email)) {
+      return response()->json(['message' => '이메일을 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($password)) {
+      return response()->json(['message' => '비밀번호를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($kind)) {
+      return response()->json(['message' => '고양이 품종를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($age)) {
+      return response()->json(['message' => '고양이 나이를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($haircolor_pattern)) {
+      return response()->json(['message' => '고양이 털 색깔/무늬를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($type)) {
+      return response()->json(['message' => '유저 형태(멘토/멘티)를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    // $name 변수의 공백 제거(이름에 띄어쓰기가 있을 경우 공백 제거)
+    $name = preg_replace("/\s+/", "", $name);
+
+    // 이메일 검사 시작
+    if ($email) {
+      // 이메일 유효성 검사 시작
+      // 정규식에 안 맞는 유형의 이메일이 들어오면 바로
+      // 에러 출력 "올바른 이메일 주소를 입력해 주세요."
+      if (preg_match("/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i", $email) == false) {
+        return response()->json(['message' => '올바른 이메일 주소를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      }
+    }
+
+    // 비밀번호 유효성 검사
+    if ($password) {
+      $num = preg_match('/[0-9]/u', $password);
+      $eng = preg_match('/[a-z]/u', $password);
+      $spe = preg_match("/[\!\@\#\$\%\^\&\*]/u", $password);
+
+      if (strlen($password) < 10 || strlen($password) > 30) {
+        return response()->json(['message' => '비밀번호는 영문, 숫자, 특수문자를 혼합하여 최소 10자리 ~ 최대 30자리 이내로 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      } elseif (preg_match("/\s/u", $password) == true) {
+        return response()->json(['message' => '비밀번호는 공백 없이 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      } elseif ($num == 0 || $eng == 0 || $spe == 0) {
+        return response()->json(['message' => '비밀번호는 영문, 숫자, 특수문자를 혼합하여 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      }
+    }
+
+
+    function password_crypt($string, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
     {
       $secret_key = 'chosangho_secret_key';
       $secret_iv = 'chosangho_secret_iv';
@@ -110,10 +155,10 @@ class UserController extends Controller
       $key = hash('sha256', $secret_key);
       $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-      if ($action == 'e') { // e는 암호화
+      if ($action == 'encrypt') { // encrypt는 암호화
         $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
 
-      } else if ($action == 'd') { // d는 복호화
+      } else if ($action == 'decrypt') { // decrypt는 복호화
         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
       }
 
@@ -121,11 +166,12 @@ class UserController extends Controller
     }
 
     // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-    $encryptedPassword = password_crypt($password, 'e');
+    $encryptedPassword = password_crypt($password, 'encrypt');
 
-    $usersEmail = DB::table('users')
-      ->where("email", "=", $email)
-      ->get();
+    $usersEmail =
+      DB::table('users')
+        ->where("email", "=", $email)
+        ->get();
 
     // 디비에 존재하는 이메일은 회원 가입 불가
     if ($usersEmail->count() > 0) {
@@ -137,27 +183,88 @@ class UserController extends Controller
     } elseif ($age > 15) {
       return response()->json(['message' => '나이는 15살 이하여야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     } else {
-      $user = new User();
-      $user->unique_id = uniqid();
-      $user->name = $name;
-      $user->email = $email;
-      $user->password = $encryptedPassword;
-      $user->kind = $kind;
-      $user->age = $age;
-      $user->haircolor_pattern = $haircolor_pattern;
-      $user->type = $type;
-      $user->save();
+      $user =
+        DB::table('users')
+          ->insert([
+            'unique_id' => uniqid(),
+            'name' => $name,
+            'email' => $email,
+            'password' => $encryptedPassword,
+            'kind' => $kind,
+            'age' => $age,
+            'haircolor_pattern' => $haircolor_pattern,
+            'type' => $type
+          ]);
 
-      return response()->json($user);
+      if ($user) {
+        return response()->json(['message' => '회원 가입이 되었습니다.']);
+      } else {
+        return response()->json(['message' => '회원 가입이 되지 않았습니다.']);
+      }
     }
   }
 
+  /**
+   * 사용자 정보 업데이트
+   */
   public function update(Request $request)
   {
 
-    $Object = new DateTime();
-    $Object->setTimezone(new DateTimeZone('Asia/Seoul'));
-    $DateAndTime = $Object->format("Y-m-d h:i:s");
+    $name = $request->input('name');
+    $email = $request->input('email');
+    $password = $request->input('password');
+    $kind = $request->input('kind');
+    $age = $request->input('age');
+    $haircolor_pattern = $request->input('haircolor_pattern');
+    $type = $request->input('type');
+
+    if (empty($name)) {
+      return response()->json(['message' => '이름을 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($email)) {
+      return response()->json(['message' => '이메일을 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($password)) {
+      return response()->json(['message' => '비밀번호를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($kind)) {
+      return response()->json(['message' => '고양이 품종를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($age)) {
+      return response()->json(['message' => '고양이 나이를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($haircolor_pattern)) {
+      return response()->json(['message' => '고양이 털 색깔/무늬를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($type)) {
+      return response()->json(['message' => '유저 형태(멘토/멘티)를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    // $name 변수의 공백 제거(이름에 띄어쓰기가 있을 경우 공백 제거)
+    $name = preg_replace("/\s+/", "", $name);
+
+    // 이메일 검사 시작
+    if ($email) {
+      // 이메일 유효성 검사 시작
+      // 정규식에 안 맞는 유형의 이메일이 들어오면 바로
+      // 에러 출력 "올바른 이메일 주소를 입력해 주세요."
+      if (preg_match("/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i", $email) == false) {
+        return response()->json(['message' => '올바른 이메일 주소를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      }
+    }
+
+    // 비밀번호 유효성 검사
+    if ($password) {
+      $num = preg_match('/[0-9]/u', $password);
+      $eng = preg_match('/[a-z]/u', $password);
+      $spe = preg_match("/[\!\@\#\$\%\^\&\*]/u", $password);
+
+      if (strlen($password) < 10 || strlen($password) > 30) {
+        return response()->json(['message' => '비밀번호는 영문, 숫자, 특수문자를 혼합하여 최소 10자리 ~ 최대 30자리 이내로 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      } elseif (preg_match("/\s/u", $password) == true) {
+        return response()->json(['message' => '비밀번호는 공백 없이 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      } elseif ($num == 0 || $eng == 0 || $spe == 0) {
+        return response()->json(['message' => '비밀번호는 영문, 숫자, 특수문자를 혼합하여 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      }
+    }
+
+    $date = new DateTime();
+    $date->setTimezone(new DateTimeZone('Asia/Seoul'));
+    $DateAndTime = $date->format("Y-m-d h:i:s");
 
     $uniqueId = $request->input('unique_id');
     $password = $request->input('password');
@@ -166,7 +273,7 @@ class UserController extends Controller
       return response()->json(['message' => '업데이트를 할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
-    function password_crypt($string, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
+    function password_crypt($string, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
     {
       $secret_key = 'chosangho_secret_key';
       $secret_iv = 'chosangho_secret_iv';
@@ -176,10 +283,10 @@ class UserController extends Controller
       $key = hash('sha256', $secret_key);
       $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-      if ($action == 'e') { // e는 암호화
+      if ($action == 'encrypt') { // encrypt는 암호화
         $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
 
-      } else if ($action == 'd') { // d는 복호화
+      } else if ($action == 'decrypt') { // decrypt는 복호화
         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
       }
 
@@ -189,18 +296,20 @@ class UserController extends Controller
     // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
     $encryptedPassword = password_crypt($password, 'e');
 
-    $users = DB::table('users')
-      ->where('unique_id', '=', $uniqueId)
-      ->update([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'password' => $encryptedPassword,
-        'kind' => $request->input('kind'),
-        'age' => $request->input('age'),
-        'haircolor_pattern' => $request->input('haircolor_pattern'),
-        'type' => $request->input('type'),
-        'updated_at' => $DateAndTime
-      ]);
+    // unique_id로 users 테이블 조회 후에 업데이트
+    $users =
+      DB::table('users')
+        ->where('unique_id', '=', $uniqueId)
+        ->update([
+          'name' => $name,
+          'email' => $email,
+          'password' => $encryptedPassword,
+          'kind' => $kind,
+          'age' => $age,
+          'haircolor_pattern' => $haircolor_pattern,
+          'type' => $type,
+          'updated_at' => $DateAndTime
+        ]);
 
     if ($users) {
       return response()->json(['message' => '업데이트 되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
@@ -213,8 +322,10 @@ class UserController extends Controller
   {
     $uniqueId = $request->input('unique_id');
 
-    $users = DB::table('users')
-      ->where('unique_id', '=', $uniqueId)->delete();
+    $users =
+      DB::table('users')
+        ->where('unique_id', '=', $uniqueId)
+        ->delete();
 
     if ($users) {
       return response()->json(['message' => '삭제되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
