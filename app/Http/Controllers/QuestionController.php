@@ -82,6 +82,7 @@ class QuestionController extends Controller
     foreach ($questions as $questionIndex => $question) {
 
       // 질문 내용이 20자가 넘어가면 20자 이후의 글은 ... 으로 출력
+      // 20자 이하라면 그대로 출력
       $question_content = mb_strlen($question->content, "UTF-8") > 20 ? mb_substr($question->content, 0, 20, "UTF-8") . "..." : $question->content;
 
       ${"questionsArray" . $questionIndex} = [
