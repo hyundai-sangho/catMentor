@@ -23,7 +23,8 @@ class CreateUsersTable extends Migration
       $table->integer('age');
       $table->string('haircolor_pattern', 50);
       $table->string('type', 50);
-      $table->timestamps();
+      $table->timestamp('created_at')->useCurrent();
+      $table->timestamp('updated_at')->useCurrent();
     });
   }
 

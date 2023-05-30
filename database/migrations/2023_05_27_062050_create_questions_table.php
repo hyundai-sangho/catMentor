@@ -21,7 +21,9 @@ class CreateQuestionsTable extends Migration
       $table->string('content', 1000);
       $table->string('type', 20);
       $table->string('answer_uniqueid', 50)->nullable();
-      $table->timestamps();
+      $table->timestamp('created_at')->useCurrent();
+      $table->timestamp('updated_at')->useCurrent();
+
     });
   }
 
