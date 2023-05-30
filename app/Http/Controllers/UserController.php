@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ class UserController extends Controller
 
   public function index()
   {
-    function password_crypt($string, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
+    function password_crypt($string, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
     {
       $secret_key = 'chosangho_secret_key';
       $secret_iv = 'chosangho_secret_iv';
@@ -23,10 +22,10 @@ class UserController extends Controller
       $key = hash('sha256', $secret_key);
       $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-      if ($action == 'e') { // e는 암호화
+      if ($action == 'encrypt') { // encrypt는 암호화
         $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
 
-      } else if ($action == 'd') { // d는 복호화
+      } else if ($action == 'decrypt') { // decrypt는 복호화
         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
       }
 
@@ -52,7 +51,7 @@ class UserController extends Controller
         $password = $nameAndPassword[1];
 
         // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'e');
+        $encryptedPassword = password_crypt($password, 'encrypt');
 
         $cats = DB::table('users')
           ->where("name", "=", $name)
@@ -66,7 +65,7 @@ class UserController extends Controller
         foreach ($cats as $cat) {
 
           // 비밀번호 암복호화 함수에 비밀번호를 넣어서 복호화한 뒤 리턴 값으로 받아서 $decryptedPassword 변수에 저장
-          $decryptedPassword = password_crypt($cat->password, 'd');
+          $decryptedPassword = password_crypt($cat->password, 'decrypt');
 
           if ($name == $cat->name && $password == $decryptedPassword) {
             // $table = DB::table('cats')->get();
@@ -294,7 +293,7 @@ class UserController extends Controller
     }
 
     // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-    $encryptedPassword = password_crypt($password, 'e');
+    $encryptedPassword = password_crypt($password, 'encrypt');
 
     // unique_id로 users 테이블 조회 후에 업데이트
     $users =

@@ -282,7 +282,7 @@ class QuestionController extends Controller
 
       // $header 값이 "Authorization"이라면
       if ($header == "Authorization") {
-        function password_crypt($password, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
+        function password_crypt($password, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
         {
           $secret_key = 'chosangho_secret_key';
           $secret_iv = 'chosangho_secret_iv';
@@ -292,10 +292,10 @@ class QuestionController extends Controller
           $key = hash('sha256', $secret_key);
           $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-          if ($action == 'e') { // e는 암호화
+          if ($action == 'encrypt') { // encrypt는 암호화
             $output = base64_encode(openssl_encrypt($password, $encrypt_method, $key, 0, $iv));
 
-          } else if ($action == 'd') { // d는 복호화
+          } else if ($action == 'decrypt') { // decrypt는 복호화
             $output = openssl_decrypt(base64_decode($password), $encrypt_method, $key, 0, $iv);
           }
 
@@ -312,7 +312,7 @@ class QuestionController extends Controller
         $password = $nameAndPassword[1];
 
         // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'e');
+        $encryptedPassword = password_crypt($password, 'encrypt');
 
         $users = DB::table('users')
           ->where("name", "=", $name)
@@ -366,7 +366,7 @@ class QuestionController extends Controller
 
       // $header 값이 "Authorization"이라면
       if ($header == "Authorization") {
-        function password_crypt($password, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
+        function password_crypt($password, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
         {
           $secret_key = 'chosangho_secret_key';
           $secret_iv = 'chosangho_secret_iv';
@@ -376,10 +376,10 @@ class QuestionController extends Controller
           $key = hash('sha256', $secret_key);
           $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-          if ($action == 'e') { // e는 암호화
+          if ($action == 'encrypt') { // encrypt는 암호화
             $output = base64_encode(openssl_encrypt($password, $encrypt_method, $key, 0, $iv));
 
-          } else if ($action == 'd') { // d는 복호화
+          } else if ($action == 'decrypt') { // decrypt는 복호화
             $output = openssl_decrypt(base64_decode($password), $encrypt_method, $key, 0, $iv);
           }
 
@@ -396,7 +396,7 @@ class QuestionController extends Controller
         $password = $nameAndPassword[1];
 
         // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'e');
+        $encryptedPassword = password_crypt($password, 'encrypt');
 
         $users = DB::table('users')
           ->where("name", "=", $name)
@@ -454,7 +454,7 @@ class QuestionController extends Controller
 
       // $header 값이 "Authorization"이라면
       if ($header == "Authorization") {
-        function password_crypt($password, $action = 'e') // $action 값은 기본값을 e(ncryted)로 한다.
+        function password_crypt($password, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
         {
           $secret_key = 'chosangho_secret_key';
           $secret_iv = 'chosangho_secret_iv';
@@ -464,10 +464,10 @@ class QuestionController extends Controller
           $key = hash('sha256', $secret_key);
           $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-          if ($action == 'e') { // e는 암호화
+          if ($action == 'encrypt') { // encrypt는 암호화
             $output = base64_encode(openssl_encrypt($password, $encrypt_method, $key, 0, $iv));
 
-          } else if ($action == 'd') { // d는 복호화
+          } else if ($action == 'decrypt') { // decrypt는 복호화
             $output = openssl_decrypt(base64_decode($password), $encrypt_method, $key, 0, $iv);
           }
 
@@ -484,7 +484,7 @@ class QuestionController extends Controller
         $password = $nameAndPassword[1];
 
         // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'e');
+        $encryptedPassword = password_crypt($password, 'encrypt');
 
         $id = $request->input('id');
 
