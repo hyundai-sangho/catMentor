@@ -155,7 +155,7 @@ hyundai_sangho@naver.com
 • Response
   {
     "제목": "집사에 대한 질문입니다.",
-    "내용": "고양이가 아무데나 똥을 싸는데 어떻게 해야 하나요?",
+    "내용": "제가 먼치킨 고양이인데 집사가 다리 짧다고 놀리는데 냥냥펀치 날려야 할까요?",
     "작성날짜": "2023-05-28 22:10:11",
     "유저정보": {
       "품종": "러시안 블루",
@@ -186,7 +186,107 @@ hyundai_sangho@naver.com
 8. **답변 수정**
     - 해당 답변이 채택된 이후엔 수정이 불가합니다.
 9. **답변 삭제**
+
     - 해당 답변이 채택된 이후엔 삭제가 불가합니다.
+
+10. 회원 가입
+
+| Index | Method | URI                             | 기능      |
+| :---: | :----: | :------------------------------ | :-------- |
+|  10   |  POST  | http://127.0.0.1:8000/api/users | 회원 가입 |
+
+<pre>
+• Request
+  {
+    "name": "chosangho",
+    "email": "chosangho@naver.com",
+    "password": "!chosangho123",
+    "kind": "터키쉬앙고라",
+    "age": "3",
+    "haircolor_pattern": "흰색",
+    "type": "멘토"
+  }
+
+• Response
+  {
+    "message": "회원 가입이 되었습니다."
+  }
+</pre>
+
+11. 사용자 조회하기
+
+| Index | Method | URI                             | 기능            |
+| :---: | :----: | :------------------------------ | :-------------- |
+|  10   |  GET   | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
+
+<pre>
+• [HEADERS]
+  Authorization: Basic Username:Password
+
+• Response
+  {
+    "품종": "터키쉬앙고라",
+    "나이": 3,
+    "털색깔/무늬": "흰색",
+    "유저형태": "멘토"
+  }
+</pre>
+
+12. 사용자 수정하기
+
+| Index | Method | URI                             | 기능            |
+| :---: | :----: | :------------------------------ | :-------------- |
+|  12   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 수정하기 |
+
+<pre>
+• Request
+  {
+    "unique_id": "6475ff1a0a15a",
+    "name": "chosangho",
+    "email": "chosangho@naver.com",
+    "password": "!chosangho123",
+    "kind": "터키쉬앙고라",
+    "age": "3",
+    "haircolor_pattern": "흰색",
+    "type": "멘토"
+  }
+
+• Response
+  [성공]
+  {
+    "업데이트 되었습니다."
+  }
+
+  [실패]
+  {
+    "업데이트 되지 않았습니다."
+  }
+
+</pre>
+
+13. 사용자 삭제하기
+
+| Index | Method | URI                             | 기능            |
+| :---: | :----: | :------------------------------ | :-------------- |
+|  13   | DELETE | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
+
+<pre>
+• Request
+  {
+    "unique_id": "6475ff1a0a15a"
+  }
+
+• Response
+  [성공]
+  {
+    "삭제되었습니다."
+  }
+
+  [실패]
+  {
+    "존재하지 않는 unique_id 입니다."
+  }
+</pre>
 
 ## 배운 점
 

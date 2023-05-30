@@ -261,7 +261,6 @@ class QuestionController extends Controller
           ]
         ];
 
-
         $resultArray = array_merge([$result], $resultArray);
       }
 
