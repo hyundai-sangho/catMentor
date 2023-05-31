@@ -73,9 +73,13 @@ class AnswerController extends Controller
     if ($answers->accept == 'yes') {
       return response()->json(['message' => '답변이 채택된 상태라 수정이 불가능합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     } else {
-      DB::table('answers')->where('id', $id)->update(['content' => $content]);
+      $answers = DB::table('answers')->where('id', $id)->update(['content' => $content]);
 
-      return response()->json(['message' => '답변이 수정되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      if ($answers) {
+        return response()->json(['message' => '답변이 수정되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      } else {
+        return response()->json(['message' => '답변이 수정되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      }
     }
   }
 
