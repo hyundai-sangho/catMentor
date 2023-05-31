@@ -445,79 +445,30 @@ class QuestionController extends Controller
   public function destroy(Request $request)
   {
 
-    // 모든 HTTP 요청 헤더 가져오기
-    $headers = apache_request_headers();
+    $id = $request->input('id');
+    $uniqueId = $request->input('unique_id');
+    $userUniqueId = $request->input('user_uniqueid');
 
-    // foreach로 돌리면서
-    foreach ($headers as $header => $value) {
 
-      // $header 값이 "Authorization"이라면
-      if ($header == "Authorization") {
-        function password_crypt($password, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
-        {
-          $secret_key = 'chosangho_secret_key';
-          $secret_iv = 'chosangho_secret_iv';
+    $questions = DB::table('questions')
+      ->where('id', '=', $id)
+      ->where('unique_id', '=', $uniqueId)
+      ->where('user_uniqueid', '=', $userUniqueId)
+      ->first();
 
-          $output = false;
-          $encrypt_method = "AES-256-CBC";
-          $key = hash('sha256', $secret_key);
-          $iv = substr(hash('sha256', $secret_iv), 0, 16);
+    if (isset($questions->answer_uniqueid)) {
+      return response()->json(['message' => '답변이 달린 질문은 삭제할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    }
 
-          if ($action == 'encrypt') { // encrypt는 암호화
-            $output = base64_encode(openssl_encrypt($password, $encrypt_method, $key, 0, $iv));
+    $deleteQuestion =
+      DB::table('questions')
+        ->where('id', $id)
+        ->delete();
 
-          } else if ($action == 'decrypt') { // decrypt는 복호화
-            $output = openssl_decrypt(base64_decode($password), $encrypt_method, $key, 0, $iv);
-          }
-
-          return $output;
-        }
-
-        $value = explode('Basic ', $value);
-
-        $str = strtr($value[1], array('-' => '+', '_' => '/'));
-        $str = base64_decode($str);
-
-        $nameAndPassword = explode(':', $str);
-        $name = $nameAndPassword[0];
-        $password = $nameAndPassword[1];
-
-        // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'encrypt');
-
-        $id = $request->input('id');
-
-        $users = DB::table('users')
-          ->where("name", "=", $name)
-          ->where("password", "=", $encryptedPassword)
-          ->first();
-
-        $questions = DB::table('questions')
-          ->where('id', '=', $id)
-          ->first();
-
-        if (isset($questions->answer_uniqueid)) {
-          return response()->json(['message' => '답변이 달린 질문은 삭제할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-        }
-
-        if (empty($users)) {
-          return response()->json(['message' => '해당 사용자가 존재하지 않으므로 질문은 삭제할 수 없습니다.'], 401, [], JSON_UNESCAPED_UNICODE);
-        }
-
-        // 사용자의 unique_id와 질문의 user_uniqueId가 같을 때만 삭제 가능
-        if ($users->unique_id == $questions->user_uniqueid) {
-          $deleteQuestion = DB::table('questions')->where('id', $id)->delete();
-
-          if ($deleteQuestion) {
-            return response()->json(['message' => '해당 질문이 삭제되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
-          } else {
-            return response()->json(['message' => '삭제할 질문이 없습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
-          }
-        } else {
-          return response()->json(['message' => '해당 사용자는 이 질문을 삭제할 수 있습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
-        }
-
-      }
+    if ($deleteQuestion) {
+      return response()->json(['message' => '해당 질문이 삭제되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+    } else {
+      return response()->json(['message' => '삭제할 질문이 없습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
     }
   }
 }
