@@ -11,6 +11,10 @@ class CreateUsersTable extends Migration
    *
    * @return void
    */
+
+  // php artisan migrate 실행시
+  // 실행되는 메소드
+  // 자동으로 테이블 생성
   public function up()
   {
     Schema::create('users', function (Blueprint $table) {
