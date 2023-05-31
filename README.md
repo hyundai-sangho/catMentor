@@ -306,8 +306,14 @@ hyundai_sangho@naver.com
   }
 
 • Response
+  [성공]
   {
     "message": "회원 가입이 되었습니다."
+  }
+
+  [실패]
+  {
+    "message": "회원 가입이 되지 않았습니다."
   }
 </pre>
 
@@ -359,7 +365,6 @@ hyundai_sangho@naver.com
   {
     "업데이트 되지 않았습니다."
   }
-
 </pre>
 
 14. 사용자 삭제하기
