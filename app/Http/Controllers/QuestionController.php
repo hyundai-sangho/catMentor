@@ -357,84 +357,41 @@ class QuestionController extends Controller
 
   public function update(Request $request)
   {
-    // 모든 HTTP 요청 헤더 가져오기
-    $headers = apache_request_headers();
 
-    // foreach로 돌리면서
-    foreach ($headers as $header => $value) {
+    $id = $request->input('id');
+    $title = $request->input('title');
+    $content = $request->input('content');
+    $type = $request->input('type');
+    $uniqueId = $request->input('unique_id');
+    $userUniqueId = $request->input('user_uniqueid');
 
-      // $header 값이 "Authorization"이라면
-      if ($header == "Authorization") {
-        function password_crypt($password, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
-        {
-          $secret_key = 'chosangho_secret_key';
-          $secret_iv = 'chosangho_secret_iv';
+    $questions =
+      DB::table('questions')
+        ->where("id", "=", $id)
+        ->where("unique_id", "=", $uniqueId)
+        ->where("user_uniqueid", "=", $userUniqueId)
+        ->first();
 
-          $output = false;
-          $encrypt_method = "AES-256-CBC";
-          $key = hash('sha256', $secret_key);
-          $iv = substr(hash('sha256', $secret_iv), 0, 16);
-
-          if ($action == 'encrypt') { // encrypt는 암호화
-            $output = base64_encode(openssl_encrypt($password, $encrypt_method, $key, 0, $iv));
-
-          } else if ($action == 'decrypt') { // decrypt는 복호화
-            $output = openssl_decrypt(base64_decode($password), $encrypt_method, $key, 0, $iv);
-          }
-
-          return $output;
-        }
-
-        $value = explode('Basic ', $value);
-
-        $str = strtr($value[1], array('-' => '+', '_' => '/'));
-        $str = base64_decode($str);
-
-        $nameAndPassword = explode(':', $str);
-        $name = $nameAndPassword[0];
-        $password = $nameAndPassword[1];
-
-        // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'encrypt');
-
-        $users = DB::table('users')
-          ->where("name", "=", $name)
-          ->where("password", "=", $encryptedPassword)
-          ->first();
-
-        if (empty($users)) {
-          return response()->json(['message' => '해당 사용자가 존재하지 않습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
-        }
-
-        $id = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
-        $type = $request->input('type');
-
-        $questions = DB::table('questions')->where("id", "=", $id)->first();
-
-        if (isset($questions->answer_uniqueid)) {
-          return response()->json(['message' => '답변이 달린 질문은 수정할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-        }
+    if (isset($questions->answer_uniqueid)) {
+      return response()->json(['message' => '답변이 달린 질문은 수정할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    }
 
 
-        // 사용자의 unique_id 질문의 user_uniqueId가 같을 때만 수정 가능
-        if ($users->unique_id == $questions->user_uniqueid) {
-          $updateQuestions = DB::table('questions')->where("id", "=", $id)->update([
-            "title" => $title,
-            "content" => $content,
-            "type" => $type
-          ]);
+    $updateQuestions =
+      DB::table('questions')
+        ->where("id", "=", $id)
+        ->where("unique_id", "=", $uniqueId)
+        ->where("user_uniqueid", "=", $userUniqueId)
+        ->update([
+          "title" => $title,
+          "content" => $content,
+          "type" => $type
+        ]);
 
-          if ($updateQuestions) {
-            return response()->json(['message' => '질문이 수정되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
-          } else {
-            return response()->json(['message' => '질문이 수정되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-          }
-        } else {
-          return response()->json(['message' => '질문 작성자가 아니므로 질문을 수정할 수 있는 권한이 없습니다.'], 404, [], JSON_UNESCAPED_UNICODE);
-        }
-      }
+    if ($updateQuestions) {
+      return response()->json(['message' => '질문이 수정되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+    } else {
+      return response()->json(['message' => '질문이 수정되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
   }
 
