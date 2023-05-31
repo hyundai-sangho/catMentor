@@ -26,23 +26,38 @@ class AnswerController extends Controller
 
       DB::table('questions')->where('id', $questionId)->update(['answer_uniqueid' => $questions_answer_uniqueid_merge]);
 
-      DB::table('answers')->insert([
+      $answers = DB::table('answers')->insert([
         'unique_id' => $unique_id,
         'user_uniqueid' => $user_uniqueid,
         'content' => $content,
-        'questions_uniqueid' => $questionsUniqueId
+        'questions_uniqueid' => $questionsUniqueId,
+        'accept' => 'no'
       ]);
+
+      if ($answers) {
+        return response()->json(['message' => '답변이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      } else {
+        return response()->json(['message' => '답변이 등록되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      }
+
     } else {
       $questions_answer_uniqueid_merge = $questions->answer_uniqueid . $unique_id . '||';
 
       DB::table('questions')->where('id', $questionId)->update(['answer_uniqueid' => $questions_answer_uniqueid_merge]);
 
-      DB::table('answers')->insert([
+      $answers = DB::table('answers')->insert([
         'unique_id' => $unique_id,
         'user_uniqueid' => $user_uniqueid,
         'content' => $content,
-        'questions_uniqueid' => $questionsUniqueId
+        'questions_uniqueid' => $questionsUniqueId,
+        'accept' => 'no'
       ]);
+
+      if ($answers) {
+        return response()->json(['message' => '답변이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      } else {
+        return response()->json(['message' => '답변이 등록되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      }
     }
 
 
