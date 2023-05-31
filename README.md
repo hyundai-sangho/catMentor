@@ -310,11 +310,34 @@ hyundai_sangho@naver.com
 10. 답변 삭제
     해당 답변이 채택된 이후엔 삭제가 불가합니다.
 
+| Index | Method | URI                               | 기능      |
+| :---: | :----: | :-------------------------------- | :-------- |
+|  10   | DELETE | http://127.0.0.1:8000/api/answers | 답변 삭제 |
+
+<pre>
+• Request
+  {
+    "id": "3",
+    "user_uniqueid": "647608f3e14dc"
+  }
+
+• Response
+  [성공]
+  {
+    "message": "답변이 삭제되었습니다."
+  }
+
+  [실패]
+  {
+    "message": "답변이 삭제되지 않았습니다."
+  }
+</pre>
+
 11. 회원 가입
 
 | Index | Method | URI                             | 기능      |
 | :---: | :----: | :------------------------------ | :-------- |
-|  10   |  POST  | http://127.0.0.1:8000/api/users | 회원 가입 |
+|  11   |  POST  | http://127.0.0.1:8000/api/users | 회원 가입 |
 
 <pre>
 • Request
@@ -344,7 +367,7 @@ hyundai_sangho@naver.com
 
 | Index | Method | URI                             | 기능            |
 | :---: | :----: | :------------------------------ | :-------------- |
-|  10   |  GET   | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
+|  12   |  GET   | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
 
 <pre>
 • [HEADERS]
@@ -363,7 +386,7 @@ hyundai_sangho@naver.com
 
 | Index | Method | URI                             | 기능            |
 | :---: | :----: | :------------------------------ | :-------------- |
-|  12   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 수정하기 |
+|  13   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 수정하기 |
 
 <pre>
 • Request
@@ -394,7 +417,7 @@ hyundai_sangho@naver.com
 
 | Index | Method | URI                             | 기능            |
 | :---: | :----: | :------------------------------ | :-------------- |
-|  13   | DELETE | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
+|  14   | DELETE | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
 
 <pre>
 • Request
