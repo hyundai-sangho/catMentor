@@ -475,6 +475,8 @@ hyundai_sangho@naver.com
   }
 </pre>
 
+![회원가입움짤](screenshot/signup.gif)
+
 14. 사용자 조회하기
 
 | Index | Method | URI                             | 기능            |
