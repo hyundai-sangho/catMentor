@@ -118,13 +118,20 @@ class AnswerController extends Controller
   public function destroy(Request $request)
   {
     $id = $request->input('id');
-    $answers = DB::table('answers')->where('id', $id)->first();
+    $userUniqueId = $request->input('user_uniqueid');
+    $answers =
+      DB::table('answers')
+        ->where('id', $id)
+        ->where('user_uniqueid', $userUniqueId)
+        ->first();
 
     if ($answers->accept == 'no') {
 
-      $questions = DB::table('questions')->where('unique_id', $answers->questions_uniqueid)->first();
+      $questions =
+        DB::table('questions')
+          ->where('unique_id', $answers->questions_uniqueid)
+          ->first();
 
-      $answers->unique_id;
       if ($questions) {
 
         $answerUniqueIdArray = explode('||', $questions->answer_uniqueid);
@@ -144,12 +151,18 @@ class AnswerController extends Controller
           $answerUniqueIdArray3 = $answerUniqueIdArray3 . $value . '||';
         }
 
-        DB::table('questions')->where('unique_id', $answers->questions_uniqueid)->update(['answer_uniqueid' => $answerUniqueIdArray3]);
+        DB::table('questions')
+          ->where('unique_id', $answers->questions_uniqueid)
+          ->update(['answer_uniqueid' => $answerUniqueIdArray3]);
       }
 
-      DB::table('answers')->where('id', $id)->delete();
+      $answers = DB::table('answers')->where('id', $id)->delete();
 
-      return response()->json(['message' => '답변이 삭제되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      if ($answers) {
+        return response()->json(['message' => '답변이 삭제되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      } else {
+        return response()->json(['message' => '답변이 삭제되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      }
     } else {
       return response()->json(['message' => '답변이 채택된 상태라 삭제가 불가능합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
