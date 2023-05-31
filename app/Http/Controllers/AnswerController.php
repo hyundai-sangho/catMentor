@@ -92,12 +92,20 @@ class AnswerController extends Controller
 
     $id = $request->input('id');
     $cancel = $request->input('cancel');
+    $userUniqueId = $request->input('user_uniqueid');
 
-    $answers = DB::table('answers')->where('id', $id)->first();
+    $answers =
+      DB::table('answers')
+        ->where('id', $id)
+        ->where('user_uniqueid', $userUniqueId)
+        ->first();
 
     if ($cancel == 'yes') {
       if ($answers->accept == 'yes') {
-        DB::table('answers')->where('id', $id)->update(['accept' => 'no']);
+        DB::table('answers')
+          ->where('id', $id)
+          ->where('user_uniqueid', $userUniqueId)
+          ->update(['accept' => 'no']);
 
         return response()->json(['message' => '답변이 채택이 취소되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
       } else {
@@ -105,7 +113,10 @@ class AnswerController extends Controller
       }
     } elseif (empty($cancel)) {
       if ($answers->accept == 'no') {
-        DB::table('answers')->where('id', $id)->update(['accept' => 'yes']);
+        DB::table('answers')
+          ->where('id', $id)
+          ->where('user_uniqueid', $userUniqueId)
+          ->update(['accept' => 'yes']);
 
         return response()->json(['message' => '답변이 채택되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
       } else {
