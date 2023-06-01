@@ -129,11 +129,11 @@ hyundai_sangho@naver.com
 
 ![API](screenshot/api.png)
 
-1. 유저(고양이) 정보 받아오기 - 비회원 조회 불가
+1. 유저(고양이) 정보 가져오기 - 비회원 조회 불가
 
 | Index | Method | URI                             | 기능                       |
 | :---: | :----: | :------------------------------ | :------------------------- |
-|   1   |  GET   | http://127.0.0.1:8000/api/users | 유저(고양이) 정보 받아오기 |
+|   1   |  GET   | http://127.0.0.1:8000/api/users | 유저(고양이) 정보 가져오기 |
 
 <pre>
 • [HEADERS]
@@ -148,7 +148,7 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-![유저(고양이) 정보 받아오기](screenshot/LookUpUsers.gif)
+![유저(고양이) 정보 가져오기](screenshot/LookUpUsers.gif)
 
 2. 질문 가져오기 - 비회원 조회 가능
 
@@ -194,7 +194,7 @@ hyundai_sangho@naver.com
   },
 </pre>
 
-![질문 id로 가져오기](screenshot/questionGetById.gif)
+![id로 질문 가져오기](screenshot/questionGetById.gif)
 
 4. 질문과 답변 가져오기 - 비회원 조회 가능
 
@@ -231,12 +231,12 @@ hyundai_sangho@naver.com
 ]
 </pre>
 
-5. 질문 등록
+5. 질문 등록하기
    질문은 제목, 내용, 질문 타입이 꼭 입력되어야 합니다.
 
-| Index | Method | URI                                 | 기능      |
-| :---: | :----: | :---------------------------------- | :-------- |
-|   5   |  POST  | http://127.0.0.1:8000/api/questions | 질문 등록 |
+| Index | Method | URI                                 | 기능          |
+| :---: | :----: | :---------------------------------- | :------------ |
+|   5   |  POST  | http://127.0.0.1:8000/api/questions | 질문 등록하기 |
 
 <pre>
 • Request
@@ -259,14 +259,14 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-![질문 등록](screenshot/questionRegist.gif)
+![질문 등록하기](screenshot/questionRegist.gif)
 
-6. 질문 삭제
+6. 질문 삭제하기
    질문에 답변이 달린 이후에는 삭제가 불가합니다.
 
-| Index | Method | URI                                 | 기능      |
-| :---: | :----: | :---------------------------------- | :-------- |
-|   6   | DELETE | http://127.0.0.1:8000/api/questions | 질문 삭제 |
+| Index | Method | URI                                 | 기능          |
+| :---: | :----: | :---------------------------------- | :------------ |
+|   6   | DELETE | http://127.0.0.1:8000/api/questions | 질문 삭제하기 |
 
 <pre>
 • Request
@@ -292,12 +292,12 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-7. 질문 수정
+7. 질문 수정하기
    질문에 답변이 달린 이후에는 수정이 불가합니다.
 
-| Index | Method | URI                                 | 기능      |
-| :---: | :----: | :---------------------------------- | :-------- |
-|   7   |  PUT   | http://127.0.0.1:8000/api/questions | 질문 수정 |
+| Index | Method | URI                                 | 기능          |
+| :---: | :----: | :---------------------------------- | :------------ |
+|   7   |  PUT   | http://127.0.0.1:8000/api/questions | 질문 수정하기 |
 
 <pre>
 • Request
@@ -326,12 +326,12 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-8. 답변 작성
+8. 답변 등록하기
    답변이 3개 이상 달린 경우 작성이 불가합니다.
 
-| Index | Method | URI                               | 기능      |
-| :---: | :----: | :-------------------------------- | :-------- |
-|   8   |  POST  | http://127.0.0.1:8000/api/answers | 답변 작성 |
+| Index | Method | URI                               | 기능          |
+| :---: | :----: | :-------------------------------- | :------------ |
+|   8   |  POST  | http://127.0.0.1:8000/api/answers | 답변 등록하기 |
 
 <pre>
 • Request
@@ -354,12 +354,14 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-9. 답변 수정
+![답변 등록하기](screenshot/answerRegist.gif)
+
+9. 답변 수정하기
    해당 답변이 채택된 이후엔 수정이 불가합니다.
 
-| Index | Method | URI                               | 기능      |
-| :---: | :----: | :-------------------------------- | :-------- |
-|   9   |  PUT   | http://127.0.0.1:8000/api/answers | 답변 수정 |
+| Index | Method | URI                               | 기능          |
+| :---: | :----: | :-------------------------------- | :------------ |
+|   9   |  PUT   | http://127.0.0.1:8000/api/answers | 답변 수정하기 |
 
 <pre>
 • Request
@@ -380,12 +382,12 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-10. 답변 삭제
+10. 답변 삭제하기
     해당 답변이 채택된 이후엔 삭제가 불가합니다.
 
-| Index | Method | URI                               | 기능      |
-| :---: | :----: | :-------------------------------- | :-------- |
-|  10   | DELETE | http://127.0.0.1:8000/api/answers | 답변 삭제 |
+| Index | Method | URI                               | 기능          |
+| :---: | :----: | :-------------------------------- | :------------ |
+|  10   | DELETE | http://127.0.0.1:8000/api/answers | 답변 삭제하기 |
 
 <pre>
 • Request
@@ -406,11 +408,11 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-11. 답변 채택
+11. 답변 채택하기
 
-| Index | Method | URI                               | 기능      |
-| :---: | :----: | :-------------------------------- | :-------- |
-|  11   | PATCH  | http://127.0.0.1:8000/api/answers | 답변 채택 |
+| Index | Method | URI                               | 기능          |
+| :---: | :----: | :-------------------------------- | :------------ |
+|  11   | PATCH  | http://127.0.0.1:8000/api/answers | 답변 채택하기 |
 
 <pre>
 • Request
@@ -431,11 +433,11 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-12. 답변 채택 취소
+12. 답변 채택 취소하기
 
-| Index | Method | URI                               | 기능           |
-| :---: | :----: | :-------------------------------- | :------------- |
-|  12   | PATCH  | http://127.0.0.1:8000/api/answers | 답변 채택 취소 |
+| Index | Method | URI                               | 기능               |
+| :---: | :----: | :-------------------------------- | :----------------- |
+|  12   | PATCH  | http://127.0.0.1:8000/api/answers | 답변 채택 취소하기 |
 
 <pre>
 • Request
