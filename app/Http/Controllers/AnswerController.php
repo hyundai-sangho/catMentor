@@ -27,29 +27,32 @@ class AnswerController extends Controller
     $content = $request->input('content');
 
     $questions = DB::table('questions')->where('id', $questionId)->first();
-    $answerUniqueIdArray = explode('||', $questions->answer_uniqueid);
 
-    if (count($answerUniqueIdArray) == 4) {
-      return response()->json("질문에 3개의 답변이 있기 때문에, 더 이상 답변을 달 수 없습니다.", 400, [], JSON_UNESCAPED_UNICODE);
-    } else if (count($answerUniqueIdArray) == 1) {
-      $questions_answer_uniqueid_merge = $unique_id . '||';
+    if (!is_null($questions->answer_uniqueid)) {
+      $answerUniqueIdArray = explode('||', $questions->answer_uniqueid);
 
-      DB::table('questions')->where('id', $questionId)->update(['answer_uniqueid' => $questions_answer_uniqueid_merge]);
+      if (count($answerUniqueIdArray) == 4) {
+        return response()->json("질문에 3개의 답변이 있기 때문에, 더 이상 답변을 달 수 없습니다.", 400, [], JSON_UNESCAPED_UNICODE);
+      } else if (count($answerUniqueIdArray) == 1) {
+        $questions_answer_uniqueid_merge = $unique_id . '||';
 
-      $answers = DB::table('answers')->insert([
-        'unique_id' => $unique_id,
-        'user_uniqueid' => $user_uniqueid,
-        'content' => $content,
-        'questions_uniqueid' => $questionsUniqueId,
-        'accept' => 'no'
-      ]);
+        DB::table('questions')->where('id', $questionId)->update(['answer_uniqueid' => $questions_answer_uniqueid_merge]);
 
-      if ($answers) {
-        return response()->json(['message' => '답변이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
-      } else {
-        return response()->json(['message' => '답변이 등록되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+        $answers = DB::table('answers')->insert([
+          'unique_id' => $unique_id,
+          'user_uniqueid' => $user_uniqueid,
+          'content' => $content,
+          'questions_uniqueid' => $questionsUniqueId,
+          'accept' => 'no'
+        ]);
+
+        if ($answers) {
+          return response()->json(['message' => '답변이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+          return response()->json(['message' => '답변이 등록되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+        }
+
       }
-
     } else {
       $questions_answer_uniqueid_merge = $questions->answer_uniqueid . $unique_id . '||';
 
