@@ -33,7 +33,7 @@ Route::delete('/users', [UserController::class, 'destroy']); // 사용자 정보
 Route::get('/questions', [QuestionController::class, 'index']); // 질문 가져오기
 Route::get('/questions/{id}', [QuestionController::class, 'index_by_id']); // id로 질문 가져오기
 Route::get('/questions-answers', [QuestionController::class, 'questions_and_answers']); // 질문과 답변 가져오기
-Route::post('/questions', [QuestionController::class, 'create']); // 질문 정보 등록하기
+Route::post('/questions', [QuestionController::class, 'create']); // 질문 등록하기
 Route::put('/questions', [QuestionController::class, 'update']); // 질문 수정하기
 Route::delete('/questions', [QuestionController::class, 'destroy']); // 질문 삭제하기
 
