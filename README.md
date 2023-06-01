@@ -450,11 +450,11 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-13. 회원 가입
+13. 사용자 정보 등록하기
 
-| Index | Method | URI                             | 기능      |
-| :---: | :----: | :------------------------------ | :-------- |
-|  13   |  POST  | http://127.0.0.1:8000/api/users | 회원 가입 |
+| Index | Method | URI                             | 기능                 |
+| :---: | :----: | :------------------------------ | :------------------- |
+|  13   |  POST  | http://127.0.0.1:8000/api/users | 사용자 정보 등록하기 |
 
 <pre>
 • Request
@@ -480,13 +480,13 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-![회원가입움짤](screenshot/signup.gif)
+![사용자 정보 등록하기](screenshot/signup.gif)
 
-14. 사용자 조회하기
+14. 사용자 정보 조회하기
 
-| Index | Method | URI                             | 기능            |
-| :---: | :----: | :------------------------------ | :-------------- |
-|  14   |  GET   | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
+| Index | Method | URI                             | 기능                 |
+| :---: | :----: | :------------------------------ | :------------------- |
+|  14   |  GET   | http://127.0.0.1:8000/api/users | 사용자 정보 조회하기 |
 
 <pre>
 • [HEADERS]
@@ -501,13 +501,13 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-![사용자_조회하기](screenshot/LookUpUsers.gif)
+![사용자 정보 조회하기](screenshot/LookUpUsers.gif)
 
-15. 사용자 수정하기
+15. 사용자 정보 수정하기
 
-| Index | Method | URI                             | 기능            |
-| :---: | :----: | :------------------------------ | :-------------- |
-|  15   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 수정하기 |
+| Index | Method | URI                             | 기능                 |
+| :---: | :----: | :------------------------------ | :------------------- |
+|  15   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 정보 수정하기 |
 
 <pre>
 • Request
@@ -534,11 +534,13 @@ hyundai_sangho@naver.com
   }
 </pre>
 
-16. 사용자 삭제하기
+![사용자 정보 수정하기](screenshot/userEdit.gif)
 
-| Index | Method | URI                             | 기능            |
-| :---: | :----: | :------------------------------ | :-------------- |
-|  16   | DELETE | http://127.0.0.1:8000/api/users | 사용자 조회하기 |
+16. 사용자 정보 삭제하기
+
+| Index | Method | URI                             | 기능                 |
+| :---: | :----: | :------------------------------ | :------------------- |
+|  16   | DELETE | http://127.0.0.1:8000/api/users | 사용자 정보 삭제하기 |
 
 <pre>
 • Request
@@ -557,6 +559,8 @@ hyundai_sangho@naver.com
     "존재하지 않는 unique_id 입니다."
   }
 </pre>
+
+![사용자 정보 삭제하기](screenshot/userRemove.gif)
 
 ## 배운 점
 
