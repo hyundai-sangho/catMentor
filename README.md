@@ -194,6 +194,8 @@ hyundai_sangho@naver.com
   },
 </pre>
 
+![질문 id로 가져오기](screenshot/questionGetById.gif)
+
 4. 질문과 답변 가져오기 - 비회원 조회 가능
 
 | Index | Method | URI                                         | 기능                 |
