@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
+  /**
+   * 사용자 조회하기
+   */
   public function index()
   {
     function password_crypt($string, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
@@ -53,42 +56,40 @@ class UserController extends Controller
         // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
         $encryptedPassword = password_crypt($password, 'encrypt');
 
-        $cats = DB::table('users')
+        $users = DB::table('users')
           ->where("name", "=", $name)
           ->where("password", "=", $encryptedPassword)
           ->get();
 
-        if ($cats->count() == 0) {
+        if ($users->count() == 0) {
           return response()->json(['message' => '해당 사용자가 존재하지 않습니다.'], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
-        foreach ($cats as $cat) {
+        foreach ($users as $user) {
 
           // 비밀번호 암복호화 함수에 비밀번호를 넣어서 복호화한 뒤 리턴 값으로 받아서 $decryptedPassword 변수에 저장
-          $decryptedPassword = password_crypt($cat->password, 'decrypt');
+          $decryptedPassword = password_crypt($user->password, 'decrypt');
 
-          if ($name == $cat->name && $password == $decryptedPassword) {
-            // $table = DB::table('cats')->get();
+          if ($name == $user->name && $password == $decryptedPassword) {
 
             return response()->json([
-              "품종" => $cat->kind,
-              "나이" => $cat->age,
-              "털색깔/무늬" => $cat->haircolor_pattern,
-              "유저형태" => $cat->type
+              "품종" => $user->kind,
+              "나이" => $user->age,
+              "털색깔/무늬" => $user->haircolor_pattern,
+              "유저형태" => $user->type
             ]);
-
           } else {
-
             return response()->json(['message' => '인증되지 않은 회원입니다.'], 401, [], JSON_UNESCAPED_UNICODE);
-
           }
-
         }
       }
     }
   }
 
 
+  /**
+   * 사용자 등록하기
+   */
   public function create(Request $request)
   {
     $name = $request->input('name');
@@ -317,6 +318,10 @@ class UserController extends Controller
     }
   }
 
+
+  /**
+   * 사용자 삭제하기
+   */
   public function destroy(Request $request)
   {
     $uniqueId = $request->input('unique_id');

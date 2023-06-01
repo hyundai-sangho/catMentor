@@ -271,6 +271,10 @@ class QuestionController extends Controller
 
   }
 
+
+  /**
+   * 질문 등록하기
+   */
   public function create(Request $request)
   {
     // 모든 HTTP 요청 헤더 가져오기
@@ -355,6 +359,9 @@ class QuestionController extends Controller
     }
   }
 
+  /**
+   * 질문 수정하기
+   */
   public function update(Request $request)
   {
 

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class AnswerController extends Controller
 {
+  /**
+   * 답변 등록하기
+   */
   public function create(Request $request)
   {
     $questionId = $request->input('question_id');
@@ -59,10 +62,11 @@ class AnswerController extends Controller
         return response()->json(['message' => '답변이 등록되지 않았습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
       }
     }
-
-
   }
 
+  /**
+   * 답변 수정하기
+   */
   public function update(Request $request)
   {
     $id = $request->input('id');
@@ -126,6 +130,9 @@ class AnswerController extends Controller
   }
 
 
+  /**
+   * 답변 삭제하기
+   */
   public function destroy(Request $request)
   {
     $id = $request->input('id');
