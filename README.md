@@ -136,18 +136,19 @@ hyundai_sangho@naver.com
 |   1   |  GET   | http://127.0.0.1:8000/api/users | 유저(고양이) 정보 받아오기 |
 
 <pre>
-
 • [HEADERS]
   Authorization: Basic Username:Password
 
 • Response
   {
-    "품종": "코리안숏헤어",
-    "나이": 9,
-    "털색깔/무늬": "턱시도",
-    "유저형태": "멘티"
+    "품종": "터키쉬앙고라",
+    "나이": 3,
+    "털색깔/무늬": "흰색",
+    "유저형태": "멘토"
   }
 </pre>
+
+![유저(고양이) 정보 받아오기](screenshot/LookUpUsers.gif)
 
 2. 질문 가져오기 - 비회원 조회 가능
 
@@ -169,6 +170,8 @@ hyundai_sangho@naver.com
     }
   },
 </pre>
+
+![질문 가져오기](screenshot/questionGetByPagenumber.gif)
 
 3. id로 질문 가져오기
 
@@ -253,6 +256,8 @@ hyundai_sangho@naver.com
     "message": "질문이 등록되지 않았습니다."
   }
 </pre>
+
+![질문 등록](screenshot/questionRegist.gif)
 
 6. 질문 삭제
    질문에 답변이 달린 이후에는 삭제가 불가합니다.
@@ -482,32 +487,11 @@ hyundai_sangho@naver.com
 
 ![사용자 정보 등록하기](screenshot/signup.gif)
 
-14. 사용자 정보 조회하기
+14. 사용자 정보 수정하기
 
 | Index | Method | URI                             | 기능                 |
 | :---: | :----: | :------------------------------ | :------------------- |
-|  14   |  GET   | http://127.0.0.1:8000/api/users | 사용자 정보 조회하기 |
-
-<pre>
-• [HEADERS]
-  Authorization: Basic Username:Password
-
-• Response
-  {
-    "품종": "터키쉬앙고라",
-    "나이": 3,
-    "털색깔/무늬": "흰색",
-    "유저형태": "멘토"
-  }
-</pre>
-
-![사용자 정보 조회하기](screenshot/LookUpUsers.gif)
-
-15. 사용자 정보 수정하기
-
-| Index | Method | URI                             | 기능                 |
-| :---: | :----: | :------------------------------ | :------------------- |
-|  15   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 정보 수정하기 |
+|  14   |  PUT   | http://127.0.0.1:8000/api/users | 사용자 정보 수정하기 |
 
 <pre>
 • Request
@@ -536,11 +520,11 @@ hyundai_sangho@naver.com
 
 ![사용자 정보 수정하기](screenshot/userEdit.gif)
 
-16. 사용자 정보 삭제하기
+15. 사용자 정보 삭제하기
 
 | Index | Method | URI                             | 기능                 |
 | :---: | :----: | :------------------------------ | :------------------- |
-|  16   | DELETE | http://127.0.0.1:8000/api/users | 사용자 정보 삭제하기 |
+|  15   | DELETE | http://127.0.0.1:8000/api/users | 사용자 정보 삭제하기 |
 
 <pre>
 • Request
