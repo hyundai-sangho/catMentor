@@ -294,6 +294,8 @@ hyundai_sangho@naver.com
   }
 </pre>
 
+![질문 삭제하기](screenshot/questionDelete.gif)
+
 7. 질문 수정하기
    질문에 답변이 달린 이후에는 수정이 불가합니다.
 
