@@ -501,6 +501,8 @@ hyundai_sangho@naver.com
   }
 </pre>
 
+![사용자_조회하기](screenshot/LookUpUsers.gif)
+
 15. 사용자 수정하기
 
 | Index | Method | URI                             | 기능            |
