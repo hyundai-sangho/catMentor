@@ -243,6 +243,12 @@ class UserController extends Controller
       return response()->json(['message' => '유저 형태(멘토/멘티)를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
+    if ($age < 1) {
+      return response()->json(['message' => '나이는 1살 이상이어야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif ($age > 15) {
+      return response()->json(['message' => '나이는 15살 이하여야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    }
+
     // $name 변수의 공백 제거(이름에 띄어쓰기가 있을 경우 공백 제거)
     $name = preg_replace("/\s+/", "", $name);
 
@@ -279,7 +285,7 @@ class UserController extends Controller
     $password = $request->input('password');
 
     if ($uniqueId == null) {
-      return response()->json(['message' => '업데이트를 할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '사용자 정보를 업데이트를 할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
     function password_crypt($string, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
@@ -321,9 +327,9 @@ class UserController extends Controller
         ]);
 
     if ($users) {
-      return response()->json(['message' => '업데이트 되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '사용자 정보가 업데이트 되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
     } else {
-      return response()->json(['message' => '업데이트 되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '사용자 정보가 업데이트 되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
   }
 
