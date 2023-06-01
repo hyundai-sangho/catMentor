@@ -231,6 +231,8 @@ hyundai_sangho@naver.com
 ]
 </pre>
 
+![질문과 답변 가져오기](screenshot/questionsAndAnswers.gif)
+
 5. 질문 등록하기
    질문은 제목, 내용, 질문 타입이 꼭 입력되어야 합니다.
 
