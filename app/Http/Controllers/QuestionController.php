@@ -279,85 +279,33 @@ class QuestionController extends Controller
    */
   public function create(Request $request)
   {
-    // 모든 HTTP 요청 헤더 가져오기
-    $headers = apache_request_headers();
+    $unique_id = uniqid();
+    $user_uniqueid = $request->input('user_uniqueid');
+    $title = $request->input('title');
+    $content = $request->input('content');
+    $type = $request->input('type');
 
-    // foreach로 돌리면서
-    foreach ($headers as $header => $value) {
-
-      // $header 값이 "Authorization"이라면
-      if ($header == "Authorization") {
-        function password_crypt($password, $action = 'encrypt') // $action 값은 기본값을 encrypt로 한다.
-        {
-          $secret_key = 'chosangho_secret_key';
-          $secret_iv = 'chosangho_secret_iv';
-
-          $output = false;
-          $encrypt_method = "AES-256-CBC";
-          $key = hash('sha256', $secret_key);
-          $iv = substr(hash('sha256', $secret_iv), 0, 16);
-
-          if ($action == 'encrypt') { // encrypt는 암호화
-            $output = base64_encode(openssl_encrypt($password, $encrypt_method, $key, 0, $iv));
-
-          } else if ($action == 'decrypt') { // decrypt는 복호화
-            $output = openssl_decrypt(base64_decode($password), $encrypt_method, $key, 0, $iv);
-          }
-
-          return $output;
-        }
-
-        $value = explode('Basic ', $value);
-
-        $str = strtr($value[1], array('-' => '+', '_' => '/'));
-        $str = base64_decode($str);
-
-        $nameAndPassword = explode(':', $str);
-        $name = $nameAndPassword[0];
-        $password = $nameAndPassword[1];
-
-        // 비밀번호 암복호화 함수에 비밀번호를 넣어서 암호화한 뒤 리턴 값으로 받아서 $encryptedPassword 변수에 저장
-        $encryptedPassword = password_crypt($password, 'encrypt');
-
-        $users = DB::table('users')
-          ->where("name", "=", $name)
-          ->where("password", "=", $encryptedPassword)
-          ->first();
-
-        if (empty($users)) {
-          return response()->json(['message' => '해당 사용자가 존재하지 않습니다.'], 401, [], JSON_UNESCAPED_UNICODE);
-        }
-
-        $unique_id = uniqid();
-        $user_uniqueid = $request->input('user_uniqueid');
-        $title = $request->input('title');
-        $content = $request->input('content');
-        $type = $request->input('type');
-
-        if (empty($title)) {
-          return response()->json(['message' => '질문 등록시 제목은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-        } elseif (empty($content)) {
-          return response()->json(['message' => '질문 등록시 내용은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-        } elseif (empty($type)) {
-          return response()->json(['message' => '질문 등록시 질문 타입은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-        }
+    if (empty($title)) {
+      return response()->json(['message' => '질문 등록시 제목은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($content)) {
+      return response()->json(['message' => '질문 등록시 내용은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    } elseif (empty($type)) {
+      return response()->json(['message' => '질문 등록시 질문 타입은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
+    }
 
 
-        $createQuestions = DB::table('questions')->insert([
-          "unique_id" => $unique_id,
-          "user_uniqueid" => $user_uniqueid,
-          "title" => $title,
-          "content" => $content,
-          "type" => $type
-        ]);
+    $createQuestions = DB::table('questions')->insert([
+      "unique_id" => $unique_id,
+      "user_uniqueid" => $user_uniqueid,
+      "title" => $title,
+      "content" => $content,
+      "type" => $type
+    ]);
 
-        if ($createQuestions) {
-          return response()->json(['message' => '질문이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
-          return response()->json(['message' => '질문이 등록되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
-        }
-
-      }
+    if ($createQuestions) {
+      return response()->json(['message' => '질문이 등록되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+    } else {
+      return response()->json(['message' => '질문이 등록되지 않았습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
   }
 
