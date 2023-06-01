@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
  * 2. update() 메소드 (답변 수정하기)
  * 3. accept() 메소드 (답변 채택 및 취소)
  * 4. destroy() 메소드 (답변 삭제하기)
+ *
  */
 class AnswerController extends Controller
 {

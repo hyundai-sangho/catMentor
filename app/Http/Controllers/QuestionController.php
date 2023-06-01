@@ -8,31 +8,13 @@ use Illuminate\Support\Facades\DB;
 /**
  * 고양이 질문과 관련된 데이터를 컨트롤하는 QuestionController 클래스(질문 CRUD)
  *
- * 1. index() 메소드
- * 질문 데이터 가져오기(1페이지당 9개의 데이터만 조회)
- *
- * input  : pageNumber(페이지 번호)
- * return : json 질문 데이터
- *
- * 2. index_by_id() 메소드
- * 질문 id에 해당하는 고양이 질문 데이터를 json으로 출력
- *
- * input  : id
- * return : [성공] json 질문 데이터
- *          [실패] ['message' => '존재하지 않는 질문입니다.'], 404
- *
- * 3. questions_and_answers() 메소드
- * 질문과 답변 가져오기
- *
- * return : json 질문과 답변 데이터
- *
+ * 1. index() 메소드(질문 데이터 가져오기(1페이지당 9개의 데이터만 조회))
+ * 2. index_by_id() 메소드(질문 id에 해당하는 고양이 질문 데이터를 json으로 출력)
+ * 3. questions_and_answers() 메소드(질문과 답변 가져오기)
  * 4. create() 메소드(질문 등록하기)
  * 5. update() 메소드(질문 수정하기)
  * 6. destroy() 메소드(질문 삭제하기)
  *
- * input  : 질문 id
- * return : [성공] ['message' => '해당 사용자가 삭제되었습니다.'], 200
- *          [실패] ['message' => '삭제할 사용자가 없습니다.'], 404
  */
 class QuestionController extends Controller
 {
