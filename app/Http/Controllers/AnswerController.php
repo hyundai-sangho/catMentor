@@ -5,7 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
+/**
+ * 답변과 관련된 데이터를 컨트롤하는 AnswerController 클래스(답변 CRUD)
+ *
+ * 1. create() 메소드 (답변 등록하기)
+ * 2. update() 메소드 (답변 수정하기)
+ * 3. accept() 메소드 (답변 채택 및 취소)
+ * 4. destroy() 메소드 (답변 삭제하기)
+ */
 class AnswerController extends Controller
 {
   /**

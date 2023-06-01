@@ -7,6 +7,15 @@ use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * 사용자 정보와 관련된 데이터를 컨트롤하는 UserController 클래스(사용자 CRUD)
+ *
+ * 1. index() 메소드(사용자 정보 조회하기)
+ * 2. create() 메소드(사용자 정보 등록하기)
+ * 3. update() 메소드(사용자 정보 수정하기)
+ * 4. destroy() 메소드(사용자 정보 삭제하기)
+ *
+ */
 class UserController extends Controller
 {
 

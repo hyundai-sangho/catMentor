@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 고양이 질문과 관련된 데이터를 컨트롤하는 QuestionController 클래스
+ * 고양이 질문과 관련된 데이터를 컨트롤하는 QuestionController 클래스(질문 CRUD)
  *
  * 1. index() 메소드
  * 질문 데이터 가져오기(1페이지당 9개의 데이터만 조회)
@@ -26,7 +26,9 @@ use Illuminate\Support\Facades\DB;
  *
  * return : json 질문과 답변 데이터
  *
- * 4. destroy() 메소드
+ * 4. create() 메소드(질문 등록하기)
+ * 5. update() 메소드(질문 수정하기)
+ * 6. destroy() 메소드(질문 삭제하기)
  *
  * input  : 질문 id
  * return : [성공] ['message' => '해당 사용자가 삭제되었습니다.'], 200
