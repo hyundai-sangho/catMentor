@@ -330,6 +330,8 @@ hyundai_sangho@naver.com
   }
 </pre>
 
+![질문 수정하기](screenshot/questionEdit.gif)
+
 8. 답변 등록하기
    답변이 3개 이상 달린 경우 작성이 불가합니다.
 
