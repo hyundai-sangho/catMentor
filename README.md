@@ -388,6 +388,8 @@ hyundai_sangho@naver.com
   }
 </pre>
 
+![답변 수정하기](screenshot/answerEdit.gif)
+
 10. 답변 삭제하기
     해당 답변이 채택된 이후엔 삭제가 불가합니다.
 
@@ -414,6 +416,8 @@ hyundai_sangho@naver.com
   }
 </pre>
 
+![답변 삭제하기](screenshot/answerRemove.gif)
+
 11. 답변 채택하기
 
 | Index | Method | URI                               | 기능          |
@@ -438,6 +442,8 @@ hyundai_sangho@naver.com
     "message": "답변이 이미 채택된 상태입니다."
   }
 </pre>
+
+![답변 채택하기](screenshot/answerAccept.gif)
 
 12. 답변 채택 취소하기
 
@@ -464,6 +470,8 @@ hyundai_sangho@naver.com
     "message": "답변이 채택되지 않는 상태라 채택 취소를 할 수 없습니다."
   }
 </pre>
+
+![답변 채택 취소하기](screenshot/answerAcceptCancel.gif)
 
 13. 사용자 정보 등록하기
 
