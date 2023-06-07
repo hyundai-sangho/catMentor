@@ -122,7 +122,7 @@ class AnswerController extends Controller
           ->where('user_uniqueid', $userUniqueId)
           ->update(['accept' => 'no']);
 
-        return response()->json(['message' => '답변이 채택이 취소되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json(['message' => '답변 채택이 취소되었습니다.'], 200, [], JSON_UNESCAPED_UNICODE);
       } else {
         return response()->json(['message' => '답변이 채택되지 않는 상태라 채택 취소를 할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
       }

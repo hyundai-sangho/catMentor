@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * 고양이 질문과 관련된 데이터를 컨트롤하는 QuestionController 클래스(질문 CRUD)
  *
- * 1. index() 메소드(질문 데이터 가져오기(1페이지당 9개의 데이터만 조회))
+ * 1. index() 메소드(질문 데이터 가져오기(1 페이지당 9개의 데이터만 조회))
  * 2. index_by_id() 메소드(질문 id에 해당하는 고양이 질문 데이터를 json으로 출력)
  * 3. questions_and_answers() 메소드(질문과 답변 가져오기)
  * 4. create() 메소드(질문 등록하기)
@@ -201,7 +201,6 @@ class QuestionController extends Controller
       return response()->json(['message' => '질문 등록시 질문 타입은 반드시 입력해야 합니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
 
-
     $createQuestions = DB::table('questions')->insert([
       "unique_id" => $unique_id,
       "user_uniqueid" => $user_uniqueid,
@@ -240,7 +239,6 @@ class QuestionController extends Controller
     if (isset($questions->answer_uniqueid)) {
       return response()->json(['message' => '답변이 달린 질문은 수정할 수 없습니다.'], 400, [], JSON_UNESCAPED_UNICODE);
     }
-
 
     $updateQuestions =
       DB::table('questions')

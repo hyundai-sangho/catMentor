@@ -116,7 +116,7 @@ class UserController extends Controller
     } elseif (empty($password)) {
       return response()->json(['message' => '비밀번호를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif (empty($kind)) {
-      return response()->json(['message' => '고양이 품종를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '고양이 품종을 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif (empty($age)) {
       return response()->json(['message' => '고양이 나이를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif (empty($haircolor_pattern)) {
@@ -234,7 +234,7 @@ class UserController extends Controller
     } elseif (empty($password)) {
       return response()->json(['message' => '비밀번호를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif (empty($kind)) {
-      return response()->json(['message' => '고양이 품종를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
+      return response()->json(['message' => '고양이 품종을 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif (empty($age)) {
       return response()->json(['message' => '고양이 나이를 입력해 주세요.'], 400, [], JSON_UNESCAPED_UNICODE);
     } elseif (empty($haircolor_pattern)) {
